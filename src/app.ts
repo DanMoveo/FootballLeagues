@@ -1,32 +1,49 @@
-const leagueButtonsContainer = document.getElementById('leagueButtons');
+import './styles.scss';
 
-async function fetchLeagues(): Promise<any[]> {
+
+const leagueButtonsContainer = document.getElementById('leagueButtons') as HTMLDivElement;
+
+interface League {
+  strLeague: string;
+  strSport: string;
+}
+
+async function fetchLeagues(): Promise<League[]> {
   try {
     const response = await fetch('https://www.thesportsdb.com/api/v1/json/3/all_leagues.php');
     const data = await response.json();
-    const filteredLeagues = data.leagues.filter((league: any) => league.strSport === "American Football");
-    return filteredLeagues;
-  } catch (error) {
+    const leagues: League[] = data.leagues;
+    const americanFootballLeagues: League[] = leagues.filter(league => league.strSport === "American Football");
+    return americanFootballLeagues;  } catch (error) {
     console.error('Error fetching leagues:', error);
     return [];
   }
 }
-
 async function createLeagueButtons() {
-  const leagues = await fetchLeagues();
+  const leagues: League[] = await fetchLeagues();
   const selectedLeagues = leagues.slice(0, 5);
 
-  selectedLeagues.forEach((league: any) => {
+  let activeButton: HTMLButtonElement | null = null; // To store the currently active button
+
+  selectedLeagues.forEach((league: League) => {
     const button = document.createElement('button');
     button.className = 'tab';
     button.setAttribute('data-league', league.strLeague);
     button.textContent = league.strLeague;
-    console.log(league.strLeague);
 
     button.addEventListener('click', () => {
       const leagueName = button.getAttribute('data-league');
       if (leagueName) {
         fetchTeamsForLeague(leagueName);
+
+        // Remove active class from the previously active button
+        if (activeButton) {
+          activeButton.classList.remove('active');
+        }
+
+        // Add active class to the clicked button
+        button.classList.add('active');
+        activeButton = button; // Update the currently active button
       }
     });
 
@@ -34,9 +51,15 @@ async function createLeagueButtons() {
   });
 }
 
+
 createLeagueButtons();
 
-const teamsContainer = document.querySelector('.teams-container');
+const teamsContainer = document.querySelector('.teams-container') as HTMLDivElement;
+
+interface Team {
+  strTeam: string;
+  strTeamBadge: string;
+}
 
 async function fetchTeamsForLeague(league: string) {
   console.log('Fetching teams for league:', league);
@@ -45,11 +68,11 @@ async function fetchTeamsForLeague(league: string) {
   const data = await response.json();
 
   if (data.teams) {
-    const teams = data.teams;
+    const teams: Team[] = data.teams;
 
     teamsContainer.innerHTML = '';
 
-    teams.forEach((team: any) => {
+    teams.forEach((team: Team) => {
       const teamElement = document.createElement('div');
       teamElement.className = 'team';
 
