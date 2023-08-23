@@ -2,7 +2,7 @@
 
 Welcome to the Football Leagues Mini-Site project! This mini-site allows you to explore and display information about different football leagues and their teams.
 
-![Screenshot](screenshot.png)
+![Screenshot](Screenshot.png)
 
 ## 🌟 Features
 - Fetch and display information about different football leagues.
