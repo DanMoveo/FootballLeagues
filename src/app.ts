@@ -14,11 +14,12 @@ async function fetchLeagues(): Promise<League[]> {
     const data = await response.json();
     const leagues: League[] = data.leagues;
     const americanFootballLeagues: League[] = leagues.filter(league => league.strSport === "American Football");
-    return americanFootballLeagues;  } catch (error) {
-    console.error('Error fetching leagues:', error);
-    return [];
-  }
+    return americanFootballLeagues;
+    } catch (error)
+    {console.error('Error fetching leagues:', error);
+    return [];}
 }
+
 async function createLeagueButtons() {
   const leagues: League[] = await fetchLeagues();
   const selectedLeagues = leagues.slice(0, 5);
@@ -50,7 +51,6 @@ async function createLeagueButtons() {
     leagueButtonsContainer?.appendChild(button);
   });
 }
-
 
 createLeagueButtons();
 
