@@ -1,6 +1,5 @@
 import './styles.scss';
 
-
 const leagueButtonsContainer = document.getElementById('leagueButtons') as HTMLDivElement;
 
 interface League {
