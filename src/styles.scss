@@ -20,6 +20,7 @@ $hover-color: #ddd;
       background-color: $hover-color;
     }
 
+    &:focus,
     &.active {
       background-color: $hover-color;
     }
