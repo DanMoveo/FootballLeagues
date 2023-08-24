@@ -67,15 +67,6 @@ function displayTeams(teams: Team[]) : void {
   });
 }
 
-// Activate the clicked button and deactivate the previously active button
-function activateButton(button: HTMLButtonElement) : void {
-  const activeButton : HTMLButtonElement = document.querySelector('.tab.active') as HTMLButtonElement;
-  if (activeButton) {
-    activeButton.classList.remove('active');
-  }
-  button.classList.add('active');
-}
-
 // Create league buttons and set up event listeners
 async function createLeagueButtons() : Promise<void> {
   try {
@@ -94,7 +85,6 @@ async function createLeagueButtons() : Promise<void> {
           try {
             const teams : Team[] = await fetchTeamsForLeague(leagueName);
             displayTeams(teams);
-            activateButton(button);
           } catch (error) {
             console.error('Error fetching teams:', error);
           }
